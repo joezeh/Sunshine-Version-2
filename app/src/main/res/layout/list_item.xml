@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today, June 16"
+        android:id="@+id/dayTextView"
+        android:textStyle="italic"
+        android:paddingBottom="15dp"
+        android:textColor="#000000"
+        android:paddingTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="21º"
+        android:id="@+id/highTempTextView"
+        android:layout_below="@id/dayTextView"
+        android:layout_alignRight="@id/dayTextView"
+        android:layout_alignLeft="@id/dayTextView"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="8º"
+        android:id="@+id/lowTempTextView"
+        android:layout_below="@id/highTempTextView"
+        android:layout_alignLeft="@+id/dayTextView"
+        android:layout_alignRight="@+id/dayTextView"
+        android:gravity="center_horizontal" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weatherIconImageView"
+        android:src="@drawable/ic_launcher"
+        android:layout_below="@+id/dayTextView"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cloudy"
+        android:id="@+id/weatherTypeTextView"
+        android:textColor="Black"
+        android:layout_below="@+id/lowTempTextView"
+        android:layout_alignRight="@+id/weatherIconImageView" /><![CDATA[
+
+    />
+
+
+]]>
+</RelativeLayout>
