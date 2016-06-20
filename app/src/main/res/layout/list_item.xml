@@ -48,12 +48,9 @@
         android:layout_height="wrap_content"
         android:text="Cloudy"
         android:id="@+id/weatherTypeTextView"
-        android:textColor="Black"
+        android:textColor="#000000"
         android:layout_below="@+id/lowTempTextView"
-        android:layout_alignRight="@+id/weatherIconImageView" /><![CDATA[
-
-    />
-
-
-]]>
+        android:layout_alignRight="@+id/weatherIconImageView"
+        android:layout_alignLeft="@+id/weatherIconImageView"
+        android:gravity="center_horizontal" />
 </RelativeLayout>
