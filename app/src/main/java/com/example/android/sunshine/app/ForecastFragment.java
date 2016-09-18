@@ -1,7 +1,9 @@
 package com.example.android.sunshine.app;
 
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -82,6 +84,10 @@ public class ForecastFragment extends Fragment {
             FetchWeatherTask task = new FetchWeatherTask();
             task.execute();
         }
+        else if (id == R.id.action_settings){
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
      class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
@@ -102,9 +108,24 @@ public class ForecastFragment extends Fragment {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                String baseURL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=21230&mode=json&units=metric&cnt=7&";
+                //String baseURL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=21230&mode=json&units=metric&cnt=7&";
                 String apiKey = getApiKey();
-                URL url = new URL(baseURL.concat(apiKey));
+                //URL url = new URL(baseURL.concat(apiKey));
+
+                Uri.Builder builder = new Uri.Builder();
+                builder.scheme("http");
+                builder.authority("api.openweathermap.org");
+                builder.appendPath("data");
+                builder.appendPath("2.5");
+                builder.appendPath("forecast");
+                builder.appendPath("daily");
+                builder.appendQueryParameter("q","21230");
+                builder.appendQueryParameter("mode","json");
+                builder.appendQueryParameter("units","metric");
+                builder.appendQueryParameter("cnt","7");
+                builder.appendQueryParameter("&APPID=", apiKey);
+                String myURL = builder.build().toString();
+                URL url = new URL(myURL);
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -136,7 +157,7 @@ public class ForecastFragment extends Fragment {
                 }
 
                 forecastJsonStr = buffer.toString();
-                System.out.println(forecastJsonStr);
+                Log.v(LOG_TAG, "Forecast JSON String: "+forecastJsonStr);
             }
 
             catch (IOException e) {
@@ -164,12 +185,14 @@ public class ForecastFragment extends Fragment {
         }
     }
 
+    //public String getZip(){}
+
     public String getApiKey(){
         try{
             ApplicationInfo ai = getActivity().getPackageManager().getApplicationInfo(getActivity().getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = ai.metaData;
             String apiKey = bundle.getString("OPEN_WEATHER_API_KEY");
-            return "&APPID="+ apiKey;
+            return apiKey;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return null;
