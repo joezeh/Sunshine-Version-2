@@ -11,7 +11,7 @@
     <EditTextPreference
         android:defaultValue="@string/pref_default_zip"
         android:inputType="phone"
-        android:key="zip_code"
+        android:key="ZIP_CODE_PREF"
         android:maxLines="1"
         android:summary="Enter your 5 digit zip code"
         android:selectAllOnFocus="true"

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,6 +75,7 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
+
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.forecastfragment, menu);
     }
@@ -90,12 +92,14 @@ public class ForecastFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
      class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
         @Override
         protected Void doInBackground(Void... params) {
+
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -104,12 +108,14 @@ public class ForecastFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
 
+
             try {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
                 //String baseURL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=21230&mode=json&units=metric&cnt=7&";
                 String apiKey = getApiKey();
+                String userZip = getZip();
                 //URL url = new URL(baseURL.concat(apiKey));
 
                 Uri.Builder builder = new Uri.Builder();
@@ -119,11 +125,11 @@ public class ForecastFragment extends Fragment {
                 builder.appendPath("2.5");
                 builder.appendPath("forecast");
                 builder.appendPath("daily");
-                builder.appendQueryParameter("q","21230");
+                builder.appendQueryParameter("q",userZip);
                 builder.appendQueryParameter("mode","json");
                 builder.appendQueryParameter("units","metric");
                 builder.appendQueryParameter("cnt","7");
-                builder.appendQueryParameter("&APPID=", apiKey);
+                builder.appendQueryParameter("APPID", apiKey);
                 String myURL = builder.build().toString();
                 URL url = new URL(myURL);
 
@@ -185,7 +191,11 @@ public class ForecastFragment extends Fragment {
         }
     }
 
-    //public String getZip(){}
+    public String getZip(){
+          String zip = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                  .getString("ZIP_CODE_PREF", null);
+        return zip;
+    }
 
     public String getApiKey(){
         try{
